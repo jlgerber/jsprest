@@ -22,7 +22,7 @@ fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
             .route("/projects", web::get().to(shows_index))
-            .route("/projects/{show}", web::get().to(show_index))
+            .route("/projects/{project}", web::get().to(show_index))
     })
     .bind(binding.as_str())?
     .run()?;

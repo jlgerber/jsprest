@@ -17,6 +17,6 @@ pub fn index(info: web::Path<Info>) -> impl Responder {
         return JspResult::new(format!("/dd/shows/{}", info.project));
         //return Ok(body)
     }
-    HttpResponse::Err().body("Undef")
+    HttpResponse::BadRequest().body("Undef")
     //JspResult::new("UNDEF".to_string())
 }
