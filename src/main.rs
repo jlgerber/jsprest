@@ -1,6 +1,11 @@
-use actix_web::{web, App, HttpServer};
-use jsprest::{show_index, shows_index};
+
+#![feature(proc_macro_hygiene, decl_macro)]
 use structopt::StructOpt;
+mod routes;
+mod shows;
+pub use routes::JspResponse;
+
+#[macro_use] extern crate rocket;
 
 #[derive(Debug, StructOpt)]
 #[structopt(name = "jsprest", about = "RESTful Jobsystem Police Service")]
@@ -16,15 +21,11 @@ struct Opt {
     port: u32,
 }
 
-fn main() -> std::io::Result<()> {
-    let opt = Opt::from_args();
-    let binding = format!("{}:{}", opt.host, opt.port);
-    HttpServer::new(|| {
-        App::new()
-            .route("/projects", web::get().to(shows_index))
-            .route("/projects/{project}", web::get().to(show_index))
-    })
-    .bind(binding.as_str())?
-    .run()?;
-    Ok(())
+#[get("/")]
+fn index() -> &'static str {
+    "Hello, world!"
+}
+
+fn main() {
+    rocket::ignite().mount("/", routes![routes::projects::projects]).launch();
 }
