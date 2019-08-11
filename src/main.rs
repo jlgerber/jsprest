@@ -21,11 +21,10 @@ struct Opt {
     port: u32,
 }
 
-#[get("/")]
-fn index() -> &'static str {
-    "Hello, world!"
-}
 
 fn main() {
-    rocket::ignite().mount("/", routes![routes::projects::projects]).launch();
+    rocket::ignite()
+    .mount("/", routes![routes::projects::projects])
+    .mount("/", routes![routes::projects::project])
+    .launch();
 }
